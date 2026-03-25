@@ -1,0 +1,46 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container {
+  width: 400px;
+}
+
+.form {
+  padding: 30px 40px;
+}
+
+.form h2 {
+  text-align: center;
+}
+
+.form-sections {
+}
+
+.form-sections label {
+  display: block;
+}
+
+.form-sections input {
+  width: 100%;
+  display: block;
+}
+
+.form-sections small {
+  visibility: hidden;
+  color: indianred;
+}
+
+.form-sections.error small {
+  visibility: visible;
+}
+
+button {
+  width: 100%;
+}
