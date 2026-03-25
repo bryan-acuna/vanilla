@@ -1,4 +1,11 @@
-import { createPerson, getPerson, randomInt } from './helper_functions.js';
+import {
+  addNewUsers,
+  doublePrice,
+  getMillionaires,
+  sortByRichest,
+  totalWealth,
+} from './state.js';
+import { updateDOM, updateEntireWealth } from './ui.js';
 
 window.addEventListener('DOMContentLoaded', () => {
   //buttons
@@ -7,44 +14,26 @@ window.addEventListener('DOMContentLoaded', () => {
   const show = document.querySelector('.show');
   const sortBy = document.querySelector('.sortBy');
   const calculate = document.querySelector('.calculate');
-  const main = document.querySelector('main');
+  const container = document.querySelector('.container');
 
   add.addEventListener('click', async () => {
-    const newUser = await createPerson();
-    users.push(newUser);
-    updateDOM(users);
+    const newUsers = await addNewUsers();
+    updateDOM(newUsers);
   });
   double.addEventListener('click', () => {
-    const doublePrice = users.map((a) => {
-      return { name: a.name, money: a.money * 2 };
-    });
-    updateDOM(doublePrice);
+    const priceDouble = doublePrice();
+    updateDOM(priceDouble);
   });
   show.addEventListener('click', () => {
-    const filteredUsers = users.filter((user) => +user.money >= 1000000);
+    const filteredUsers = getMillionaires();
     updateDOM(filteredUsers);
   });
   sortBy.addEventListener('click', () => {
-    const sortedArray = users.sort((a, b) => +b.money - +a.money);
+    const sortedArray = sortByRichest();
     updateDOM(sortedArray);
   });
   calculate.addEventListener('click', () => {
-    const total = users.reduce((acc, current) => {
-      return acc + +current.money;
-    }, 0);
-    console.log(total);
+    const total = totalWealth();
+    updateEntireWealth(total);
   });
-
-  const updateDOM = (data) => {
-    main.innerHTML = `<h2><strong>Person</strong> Wealth</h2>`;
-    data.forEach((user) => {
-      const h3 = document.createElement('h3');
-      h3.classList.add('people');
-      user.money = user.money;
-      h3.innerHTML = `<strong>${user.name}</strong> $${user.money}`;
-      main.appendChild(h3);
-    });
-  };
 });
-
-const users = [];
