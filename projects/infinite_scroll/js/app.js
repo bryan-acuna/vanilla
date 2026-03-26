@@ -3,11 +3,34 @@ import { displayPosts } from './ui.js';
 
 const loader = document.querySelector('.loader');
 const filter = document.querySelector('.filter');
+const post_container = document.querySelector('.post-container');
 
 let page = 1;
+let isLoading = true;
+
+const loadInitialPosts = async () => {
+  const posts = await fetchPosts(page);
+  displayPosts(posts, post_container);
+  isLoading = false;
+};
+
+const observer = new IntersectionObserver(
+  async (entries) => {
+    const loaderItem = entries[0];
+    if (loaderItem.isIntersecting && !isLoading) {
+      isLoading = true;
+      ++page;
+      const newPosts = await fetchPosts(page);
+      displayPosts(newPosts, post_container);
+      isLoading = false;
+    }
+  },
+  { threshold: 0.1 },
+);
+
 window.addEventListener('DOMContentLoaded', async () => {
-  const quotes = await fetchPosts(page);
-  displayPosts(quotes);
+  await loadInitialPosts();
+  observer.observe(loader);
   filter.addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase();
     const posts = document.querySelectorAll('.post');
@@ -28,12 +51,12 @@ window.addEventListener('DOMContentLoaded', async () => {
   });
 });
 
-window.addEventListener('scroll', async () => {
-  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-  if (scrollTop + clientHeight >= scrollHeight - 5) {
-    loader.classList.add('show');
-    page = page + 1;
-    const newPosts = await fetchPosts(page);
-    displayPosts(newPosts);
-  }
-});
+// window.addEventListener('scroll', async () => {
+//   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+//   if (scrollTop + clientHeight >= scrollHeight - 5) {
+//     loader.classList.add('show');
+//     page = page + 1;
+//     const newPosts = await fetchPosts(page);
+//     displayPosts(newPosts, post_container);
+//   }
+// });

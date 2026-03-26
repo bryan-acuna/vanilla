@@ -71,7 +71,7 @@ h1 {
 
 .loader {
   display: flex;
-  position: fixed;
+  /* position: fixed; */
   bottom: 50px;
   opacity: 0;
 }

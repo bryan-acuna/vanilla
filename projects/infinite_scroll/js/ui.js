@@ -1,9 +1,10 @@
-const post_container = document.querySelector('.post-container');
-export const displayPosts = (posts) => {
+export const displayPosts = (posts, container) => {
+  const fragment = document.createDocumentFragment();
+
   posts.forEach((post) => {
-    const newPost = document.createElement('div');
-    newPost.classList.add('post');
-    newPost.innerHTML = `
+    const postEl = document.createElement('div');
+    postEl.classList.add('post');
+    postEl.innerHTML = `
     <div class="number">${post.id}</div>
     <div class="post-info">
     <h2 class="post-title">${post.title}</h2>
@@ -11,6 +12,7 @@ export const displayPosts = (posts) => {
     </div>
     
     `;
-    post_container.appendChild(newPost);
+    fragment.appendChild(postEl);
   });
+  container.appendChild(fragment);
 };
