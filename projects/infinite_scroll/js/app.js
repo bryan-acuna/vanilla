@@ -50,13 +50,3 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
   });
 });
-
-// window.addEventListener('scroll', async () => {
-//   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-//   if (scrollTop + clientHeight >= scrollHeight - 5) {
-//     loader.classList.add('show');
-//     page = page + 1;
-//     const newPosts = await fetchPosts(page);
-//     displayPosts(newPosts, post_container);
-//   }
-// });

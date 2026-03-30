@@ -12,3 +12,25 @@ export const fetchPosts = async (page) => {
     return [];
   }
 };
+
+function throttle(cb, timer) {
+  let timeout = false;
+  let saveArgs = null;
+
+  return function (...args) {
+    if (timeout) {
+      saveArgs = args;
+      return;
+    }
+    timeout = true;
+
+    cb.apply(this, args);
+    setTimeout(() => {
+      timeout = false;
+      if (saveArgs) {
+        cb.apply(this, saveArgs);
+        saveArgs = null;
+      }
+    }, timer);
+  };
+}
